@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/darkAlphaScraper"]
+
+[project]
+version = "2025.0.0"
+name = "dark-alpha-scraper"
+dependencies = [
+  "typer"
+]
+requires-python = ">=3.8"
+authors = [
+  {name = "Augustine Putman", email = "putmanaugustine@gmail.com"}
+]
+description = "Webscraper for Dark Alpha Capital"
+
+[project.scripts]
+scraper = "darkAlphaScraper.cli:app"
