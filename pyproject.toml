@@ -9,7 +9,17 @@ packages = ["src/darkAlphaScraper"]
 version = "2025.0.0"
 name = "dark-alpha-scraper"
 dependencies = [
-  "typer"
+  "typer",
+  "pandas",
+  "requests",
+  "openai",
+  "python-dotenv",
+  "selenium",
+  "undetected-chromedriver",
+  "openpyxl",
+  "beautifulsoup4",
+  "google-generativeai",
+  "openai"
 ]
 requires-python = ">=3.8"
 authors = [
