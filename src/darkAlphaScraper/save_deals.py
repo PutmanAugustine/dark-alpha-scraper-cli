@@ -12,4 +12,4 @@ def save_file(all_data, EXCEL_OUT, EXCEL_COLUMNS, map_to_excel):
     """
     # Save data in Excel format
     pd.DataFrame([map_to_excel(x) for x in all_data], columns=EXCEL_COLUMNS).to_excel(EXCEL_OUT, index=False)
-    print("Deals saved to Excel and JSON files.")
+    print("Deals saved to Excel file.")
