@@ -56,6 +56,7 @@ def scrape(firm_name, url, outputFile):
       d.get("sourceWebsite", "").strip(),
       d.get("dealCaption", "").strip()
     )
+    for d in existing_data
   }
 
   df = pd.read_csv(sheet_to_csv_url(GOOGLE_SHEET_EDIT_URL))
