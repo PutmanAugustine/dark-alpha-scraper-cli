@@ -3,17 +3,11 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from helper import create_undetected_driver
-from helper import hash_content
-from config import scraped_urls
-from gemini_extractor import extract_deals_with_gemini
+from darkAlphaScraper.helper import create_undetected_driver
+from darkAlphaScraper.helper import hash_content
+from darkAlphaScraper.gemini_extractor import extract_deals_with_gemini
 
 def scrape_all_deals_with_pagination(start_url: str) -> list:
-    if start_url in scraped_urls:
-        print(f"🔁 Already scraped: {start_url}, skipping.")
-        return []
-
-    scraped_urls.add(start_url)
     driver = create_undetected_driver()
     driver.get(start_url)
     wait = WebDriverWait(driver, 15)

@@ -9,7 +9,6 @@ GOOGLE_SHEET_EDIT_URL = (
 )
 
 FIRM_COL, URL_COL = "PE Firm", "URL"
-scraped_urls = set()
 
 PROMPT = """
 Extract all deals from this page.
