@@ -22,7 +22,7 @@ def on_scrape():
 def start():
     # GUI Setup
     root = tk.Tk()
-    root.title("Scraper GUI")
+    root.title("Dark Alpha Capital Deal Scraper")
     root.geometry("500x400")
 
     # URL Entry
@@ -40,8 +40,8 @@ def start():
     browse_button.pack(side=tk.LEFT)
 
     # Text Field
-    tk.Label(root, text="Enter Text:").pack()
-    text_field = tk.Text(root, height=10, width=60)
+    tk.Label(root, text="Enter Name of Firm:").pack()
+    text_field = tk.Text(root, width=60)
     text_field.pack(pady=(0, 10))
 
     # Scrape Button
