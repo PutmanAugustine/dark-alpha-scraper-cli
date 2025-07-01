@@ -2,7 +2,7 @@
 
 import re
 import hashlib
-from config import COLUMN_MAPPING
+from darkAlphaScraper.config import COLUMN_MAPPING
 import undetected_chromedriver as uc
 
 def parse_money(value):

@@ -4,13 +4,13 @@ import os
 import pandas as pd
 import json
 from datetime import datetime
-from .contact_scraper import scrape_contacts_with_selenium
-from .pagination import scrape_all_deals_with_pagination
-from .helper import sheet_to_csv_url
-from .helper import parse_money
-from .config import (GOOGLE_SHEET_EDIT_URL, FIRM_COL, URL_COL, EXCEL_COLUMNS)
-from .helper import map_to_excel
-from .save_deals import save_file
+from darkAlphaScraper.contact_scraper import scrape_contacts_with_selenium
+from darkAlphaScraper.pagination import scrape_all_deals_with_pagination
+from darkAlphaScraper.helper import sheet_to_csv_url
+from darkAlphaScraper.helper import parse_money
+from darkAlphaScraper.config import (GOOGLE_SHEET_EDIT_URL, FIRM_COL, URL_COL, EXCEL_COLUMNS)
+from darkAlphaScraper.helper import map_to_excel
+from darkAlphaScraper.save_deals import save_file
 
 def scraper(
   website: Annotated[str, typer.Argument(help="The website to be scraped (if left blank, enters into interactive mode)")] = "",

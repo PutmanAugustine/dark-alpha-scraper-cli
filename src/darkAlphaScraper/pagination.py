@@ -3,9 +3,9 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from helper import create_undetected_driver
-from helper import hash_content
-from gemini_extractor import extract_deals_with_gemini
+from darkAlphaScraper.helper import create_undetected_driver
+from darkAlphaScraper.helper import hash_content
+from darkAlphaScraper.gemini_extractor import extract_deals_with_gemini
 
 def scrape_all_deals_with_pagination(start_url: str) -> list:
     driver = create_undetected_driver()

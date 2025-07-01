@@ -1,6 +1,6 @@
 import typer
 
-from .scraper import scraper
+from darkAlphaScraper.scraper import scraper
 
 app = typer.Typer()
 app.command()(scraper)
