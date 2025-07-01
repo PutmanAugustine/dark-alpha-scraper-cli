@@ -29,3 +29,4 @@ description = "Webscraper for Dark Alpha Capital"
 
 [project.scripts]
 scraper = "darkAlphaScraper.cli:app"
+scraper-gui = "darkAlphaScraper.gui:start"
