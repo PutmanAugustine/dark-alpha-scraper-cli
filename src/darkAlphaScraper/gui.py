@@ -25,13 +25,16 @@ def start():
     root.title("Dark Alpha Capital Deal Scraper")
     root.geometry("500x400")
 
+    # Title
+    tk.Label(root, text="Welcome to the Dark Alpha Capital Webscraper.").pack(pady=(10,0))
+
     # URL Entry
     tk.Label(root, text="Enter URL:").pack(pady=(10, 0))
     url_entry = tk.Entry(root, width=60)
     url_entry.pack(pady=(0, 10))
 
     # File Selection
-    tk.Label(root, text="Select File:").pack()
+    tk.Label(root, text="Select File (leave blank to default to your desktop):").pack()
     file_frame = tk.Frame(root)
     file_frame.pack(pady=(0, 10))
     file_entry = tk.Entry(file_frame, width=45)
@@ -39,9 +42,9 @@ def start():
     browse_button = tk.Button(file_frame, text="Browse", command=browse_file)
     browse_button.pack(side=tk.LEFT)
 
-    # Text Field
+    # Name of firm
     tk.Label(root, text="Enter Name of Firm:").pack()
-    text_field = tk.Text(root, width=60)
+    text_field = tk.Entry(root, height=0, width=60)
     text_field.pack(pady=(0, 10))
 
     # Scrape Button
