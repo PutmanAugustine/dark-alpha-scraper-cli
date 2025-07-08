@@ -3,11 +3,13 @@ import google.generativeai as genai
 import re
 import json
 from dotenv import load_dotenv
+from configparser import ConfigParser
+config = ConfigParser()
 
 load_dotenv()
 
 def extract_deals_with_gemini(html_content: str) -> list:
-    gemini_api_key = os.getenv('GEMINI_API_KEY')
+    gemini_api_key = config.get('main', 'geminiToken')
     if not gemini_api_key:
         raise ValueError("GEMINI_API_KEY not found in .env")
 

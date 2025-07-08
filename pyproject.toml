@@ -19,7 +19,9 @@ dependencies = [
   "openpyxl",
   "beautifulsoup4",
   "google-generativeai",
-  "openai"
+  "openai",
+  "setuptools",
+  "configparser",
 ]
 requires-python = ">=3.8"
 authors = [

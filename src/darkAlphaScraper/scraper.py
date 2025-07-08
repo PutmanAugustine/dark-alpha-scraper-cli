@@ -2,6 +2,7 @@ import typer
 from typing_extensions import Annotated
 import os
 import pandas as pd
+from configparser import ConfigParser
 import json
 from datetime import datetime
 from darkAlphaScraper.contact_scraper import scrape_contacts_with_selenium
@@ -12,10 +13,22 @@ from darkAlphaScraper.config import (GOOGLE_SHEET_EDIT_URL, FIRM_COL, URL_COL, E
 from darkAlphaScraper.helper import map_to_excel
 from darkAlphaScraper.save_deals import save_file
 
+config = ConfigParser()
+config.read('config.ini')
+config.add_section('main')
+
 def scraper(
   website: Annotated[str, typer.Argument(help="The website to be scraped (if left blank, enters into interactive mode)")] = "",
-  output: Annotated[str, typer.Option(help="The file to output the scraped data into (leave blank if entering dynamic mode)")] = "",
+  output: Annotated[str, typer.Option(help="The file to output the scraped data into (leave blank if entering interactive mode)")] = "",
+  geminiToken: Annotated[str, typer.Option(help="Your Gemini API token")] = "",
 ):
+  if not geminiToken == "":
+    config.set('main', 'geminiToken', geminiToken)
+
+    with open('config.ini', 'w') as f:
+      config.write(f)
+
+    return
   dynamic = website == ""
   if not dynamic:
     scrape(website, output)
