@@ -15,7 +15,9 @@ from darkAlphaScraper.save_deals import save_file
 
 config = ConfigParser()
 config.read('config.ini')
-config.add_section('main')
+if not config.has_section('main'):
+    config.add_section('main')
+
 
 def scraper(
   website: Annotated[str, typer.Argument(help="The website to be scraped (if left blank, enters into interactive mode)")] = "",
