@@ -1,33 +1,16 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
-from tkinter import *
-from tkinter import ttk
+from .scraper import scrape
 
-# Global variables declaration at module level
+# Global variables
 url_entry = None
 file_entry = None
 text_field = None
 
-from .scraper import scrape
-
-def make_rounded(widget, radius=10, bg='#333333', fg='#ffffff'):
-    # Create a frame with rounded corners
-    frame = Frame(widget.master, bg=bg, bd=0)
-    
-    # Place the original widget inside
-    widget.pack(in_=frame, fill=BOTH, expand=True, padx=radius//2, pady=radius//2)
-    
-    # Draw rounded rectangle
-    canvas = Canvas(frame, bg=frame['bg'], highlightthickness=0, bd=0)
-    canvas.pack(fill=BOTH, expand=True)
-    
-    def update_rounding(event=None):
-        canvas.delete("all")
-        w, h = frame.winfo_width(), frame.winfo_height()
-        canvas.create_rounded_rect(0, 0, w, h, radius=radius, fill=bg, outline='#555555')
-    
-    frame.bind("<Configure>", update_rounding)
-    return frame
+# # from .scraper import scrape  # Uncomment and implement your scrape function
+# def scrape(url, file_path, text):
+#     print(f"Scraping URL: {url}, saving to: {file_path}, for firm: {text}")
+#     messagebox.showinfo("Success", "Scraping started!")
 
 def browse_file():
     file_path = filedialog.askopenfilename()
@@ -39,183 +22,217 @@ def on_scrape():
     url = url_entry.get()
     file_path = file_entry.get()
     text = text_field.get().strip()
-    
+
     if not url or not file_path or not text:
         messagebox.showerror("Error", "All fields must be filled out.")
         return
-    
-    scrape(url, file_path, text)
 
-def open_new_window(root):
-    new_window = tk.Toplevel(root)
-    new_window.title("New Window")
-    new_window.geometry("300x200")
-    label = tk.Label(new_window, text="This is a new window!")
-    label.pack(pady=20)
+    scrape(text, url, file_path)
 
-
-
-def start():
+def open_form_window(root):
     global url_entry, file_entry, text_field
-    
-    # GUI Setup
-    root = tk.Tk()
-    root.title("Dark Alpha Capital Deal Scraper")
-    root.geometry("800x600")  # Increased initial size
-    root.minsize(600, 500)  # Minimum window size
-    root.configure(bg="#1a1a1a")
-    
-    # Configure grid for root window
-    root.grid_rowconfigure(0, weight=1)
-    root.grid_columnconfigure(0, weight=1)
-    
-    # Main container
-    main_frame = tk.Frame(root, bg="#1a1a1a", padx=40, pady=40)
+
+    form_window = tk.Toplevel()
+    form_window.title("Dark Alpha Capital Deal Scraper")
+    screen_width = form_window.winfo_screenwidth()
+    screen_height = form_window.winfo_screenheight()
+    form_window.geometry(f"{screen_width}x{screen_height}+0+0")
+
+    form_window.configure(bg="#F7FAFC")  # Light gray
+    form_window.state('zoomed')
+
+    def on_close():
+        root.destroy()
+
+    form_window.protocol("WM_DELETE_WINDOW", on_close)
+
+    main_frame = tk.Frame(form_window, bg="#F7FAFC", padx=300, pady=40)
     main_frame.pack(fill=tk.BOTH, expand=True)
-    
-    # Configure main frame grid
-    main_frame.grid_rowconfigure(1, weight=1)
-    main_frame.grid_columnconfigure(0, weight=1)
-    
-    # Title
-    title_frame = tk.Frame(main_frame, bg="#1a1a1a")
-    title_frame.pack(fill=tk.X, pady=(0, 30))
-    
+
     tk.Label(
-        title_frame,
-        text="Welcome to the Dark Alpha Capital Webscraper",
-        font=("Arial", 32, "bold"),  # Slightly smaller font for better responsiveness
-        fg="#ffffff",
-        bg="#1a1a1a",
-        wraplength=700  # Allows text to wrap on smaller windows
-    ).pack(fill=tk.X)
-    
-    # Form container
-    form_frame = tk.Frame(main_frame, bg="#1a1a1a")
+        main_frame,
+        text="Dark Alpha Capital Deal Scraper",
+        font=("DejaVu Sans", 28, "bold"),
+        fg="#2D3748",
+        bg="#F7FAFC",
+        wraplength=700
+    ).pack(fill=tk.X, pady=(0, 30))
+
+    form_frame = tk.Frame(main_frame, bg="#F7FAFC")
     form_frame.pack(fill=tk.BOTH, expand=True)
-    
+
     # URL Entry
-    url_frame = tk.Frame(form_frame, bg="#1a1a1a")
+    url_frame = tk.Frame(form_frame, bg="#F7FAFC")
     url_frame.pack(fill=tk.X, pady=(0, 20), expand=True)
-    
+
     tk.Label(
         url_frame,
         text="Enter URL:",
-        font=("Arial", 10),
-        fg="#aaaaaa",
-        bg="#1a1a1a",
+        font=("DejaVu Sans", 10),
+        fg="#718096",
+        bg="#F7FAFC",
         anchor="w"
     ).pack(fill=tk.X, pady=(0, 5))
-    
+
     url_entry = tk.Entry(
         url_frame,
-        font=("Arial", 10),
-        fg="#ffffff",
-        bg="#333333",
-        insertbackground="#ffffff",
-        relief=tk.FLAT
+        font=("DejaVu Sans", 10),
+        fg="#2D3748",
+        bg="#FFFFFF",
+        insertbackground="#2D3748",
+        relief=tk.FLAT,
+        highlightthickness=1,             # border width
+        highlightbackground="#000000",   # border color (normal)
+        highlightcolor="#000000"         # border color (focus)
     )
     url_entry.pack(fill=tk.X, ipady=5)
-    
+
     # File Selection
-    file_frame = tk.Frame(form_frame, bg="#1a1a1a")
+    file_frame = tk.Frame(form_frame, bg="#F7FAFC")
     file_frame.pack(fill=tk.X, pady=(0, 20), expand=True)
-    
+
     tk.Label(
         file_frame,
-        text="Select File (leave blank to default to your desktop):",
-        font=("Arial", 10),
-        fg="#aaaaaa",
-        bg="#1a1a1a",
+        text="Select File (leave blank to save it to your desktop by default):",
+        font=("DejaVu Sans", 10),
+        fg="#718096",
+        bg="#F7FAFC",
         anchor="w"
     ).pack(fill=tk.X, pady=(0, 5))
-    
-    file_entry_frame = tk.Frame(file_frame, bg="#1a1a1a")
+
+    file_entry_frame = tk.Frame(file_frame, bg="#F7FAFC")
     file_entry_frame.pack(fill=tk.X)
-    
+
     file_entry = tk.Entry(
         file_entry_frame,
-        font=("Arial", 10),
-        fg="#ffffff",
-        bg="#333333",
-        insertbackground="#ffffff",
-        relief=tk.FLAT
+        font=("DejaVu Sans", 10),
+        fg="#2D3748",
+        bg="#FFFFFF",
+        insertbackground="#2D3748",
+        relief=tk.FLAT,highlightthickness=1,             # border width
+        highlightbackground="#000000",   # border color (normal)
+        highlightcolor="#000000"         # border color (focus)
     )
     file_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, ipady=5)
-    
+
     browse_button = tk.Button(
         file_entry_frame,
         text="Browse",
         command=browse_file,
-        font=("Arial", 10),
-        fg="#ffffff",
-        bg="#4a4a4a",
-        activeforeground="#ffffff",
-        activebackground="#555555",
+        font=("DejaVu Sans", 10),
+        fg="#FFFFFF",
+        bg="#1A202C",
+        activeforeground="#FFFFFF",
+        activebackground="#2D3748",
         relief=tk.FLAT,
         padx=15
     )
     browse_button.pack(side=tk.RIGHT, padx=(10, 0))
-    
-    # Name of firm
-    firm_frame = tk.Frame(form_frame, bg="#1a1a1a")
+
+    # Firm Name
+    firm_frame = tk.Frame(form_frame, bg="#F7FAFC")
     firm_frame.pack(fill=tk.X, pady=(0, 30), expand=True)
-    
+
     tk.Label(
         firm_frame,
         text="Enter Name of Firm:",
-        font=("Arial", 10),
-        fg="#aaaaaa",
-        bg="#1a1a1a",
+        font=("DejaVu Sans", 10),
+        fg="#718096",
+        bg="#F7FAFC",
         anchor="w"
     ).pack(fill=tk.X, pady=(0, 5))
-    
+
     text_field = tk.Entry(
         firm_frame,
-        font=("Arial", 10),
-        fg="#ffffff",
-        bg="#333333",
-        insertbackground="#ffffff",
-        relief=tk.FLAT
+        font=("DejaVu Sans", 10),
+        fg="#2D3748",
+        bg="#FFFFFF",
+        insertbackground="#2D3748",
+        relief=tk.FLAT,
+        highlightthickness=1,             # border width
+        highlightbackground="#000000",   # border color (normal)
+        highlightcolor="#000000"         # border color (focus)
     )
     text_field.pack(fill=tk.X, ipady=5)
-    
-    # Button container
-    button_frame = tk.Frame(form_frame, bg="#1a1a1a")
+
+    # Scrape Button
+    button_frame = tk.Frame(form_frame, bg="#F7FAFC")
     button_frame.pack(fill=tk.X, pady=(20, 0))
-    
+
     scrape_button = tk.Button(
         button_frame,
-        text="Scrape",
+        text="Start Scraping!",
         command=on_scrape,
-        font=("Arial", 12, "bold"),
-        fg="#ffffff",
-        bg="#0066cc",
-        activeforeground="#ffffff",
-        activebackground="#0077dd",
+        font=("DejaVu Sans", 12, "bold"),
+        fg="#FFFFFF",
+        bg="#1A202C",
+        activeforeground="#FFFFFF",
+        activebackground="#2D3748",
         relief=tk.FLAT,
         padx=20,
         pady=10
     )
     scrape_button.pack(pady=(10, 0))
-    
-    # Make all entry widgets expand with window
-    for entry in [url_entry, file_entry, text_field]:
-        entry.bind("<Configure>", lambda e: e.widget.configure(width=e.widget.winfo_width()//10))
 
-    # Add a button to open a new window
-    # Button to open a new window
-    open_button = tk.Button(main_frame, text="Open New Window", command=lambda: open_new_window(root))
-    open_button.pack(pady=50)
 
+def start():
+    root = tk.Tk()
+    root.title("Dark Alpha Capital Webscraper")
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    root.geometry(f"{screen_width}x{screen_height}+0+0")
+    root.configure(bg="#F7FAFC")
+    root.state('zoomed')
+
+    title_label = tk.Label(
+        root,
+        text="Welcome to the Dark Alpha Capital Webscraper",
+        font=("DejaVu Sans", 32, "bold"),
+        fg="#2D3748",
+        bg="#F7FAFC",
+        wraplength=700
+    )
+    title_label.pack(padx=20, pady=(80, 10))
     
-    print(tk.TkVersion)
-    print(tk.TclVersion)
-        
+    text_label = tk.Label(
+        root,
+        text="Streamline your deal flow with our scraping tool",
+        font=("DejaVu Sans", 20, "bold"),
+        fg="#718096",
+        bg="#F7FAFC"
+    )
+    text_label.pack(pady=(5, 20))
+
+    text_label2 = tk.Label(
+        root,
+        text="Use this tool to scrape information from websites — just enter the URL, specify where to save the scraped data, and you’re all set!",
+        font=("DejaVu Sans", 14),
+        fg="#2D3748",
+        bg="#F7FAFC",
+        wraplength=700,
+        justify="center"
+    )
+    text_label2.pack(pady=(20, 30))
+
+    continue_button = tk.Button(
+        root,
+        text="Explore Raw Deals",
+        command=lambda: [open_form_window(root), root.withdraw()],
+        font=("DejaVu Sans", 14, "bold"),
+        fg="#FFFFFF",
+        bg="#1A202C",
+        activeforeground="#FFFFFF",
+        activebackground="#2D3748",
+        padx=20,
+        pady=14
+    )
+    continue_button.pack()
+
     root.mainloop()
 
 if __name__ == "__main__":
     start()
+
 
 
 # def start():
